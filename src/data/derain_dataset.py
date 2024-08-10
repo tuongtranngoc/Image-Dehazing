@@ -1,4 +1,5 @@
 
+from collections import defaultdict
 import albumentations as A
 from torch.utils.data import DataLoader, Dataset
 from albumentations.pytorch.transforms import ToTensorV2
@@ -7,6 +8,7 @@ import os
 import cv2
 import PIL
 import glob
+import itertools
 import numpy as np
 
 from src import config as cfg
@@ -26,11 +28,11 @@ class DeRainDataset(Dataset):
             clean_data = os.path.join(data_folder, 'original_data')
             noise_data = os.path.join(data_folder, 'generated_data')
             
-            for img_path in glob.glob(os.path.join(clean_data, self.mode, "*")):
+            for img_path in glob.glob(os.path.join(noise_data, self.mode, "*", "*")):
                 basename = os.path.basename(img_path)
                 dataset.append({
-                    'clean_path': img_path,
-                    'noise_path': os.path.join(noise_data, self.mode, basename)
+                    'noise_path': img_path,
+                    'clean_path': os.path.join(clean_data, self.mode, basename)
                 })
         return dataset
                 
@@ -60,6 +62,25 @@ class TransformDeReain:
     
     def transform(self, image):
         transformed = self._transform(image=image)
-        image_transformed = transformed['image'] / 255.0
-        return image_transformed
+        transformed_img = transformed['image'] / 255.
+        return transformed_img
+    
+
+class ImageSpliting:
+    def __init__(self, size=512):
+        self.size = size
+
+    def __call__(self, image:np.ndarray):
+        H, W, C = image.shape
         
+        mosaics = defaultdict()
+
+        hr = round(H/self.size)
+        wr = round(W/self.size)
+
+        gird_cells = itertools.product(range(0, wr), range(0, hr))
+
+        for i, j in gird_cells:
+            mosaics[(i, j)] = image[(j*(H//hr)):((j+1)*(H//hr)), (i*(W//wr)):((i+1)*(W//wr))]
+        mosaics = dict(sorted(mosaics.items(), key = lambda x:x[0]))
+        return list(mosaics.values())

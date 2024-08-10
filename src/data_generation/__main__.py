@@ -6,8 +6,9 @@ import numpy as np
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 
-from raindrop.data_generation.gen_albumentation import GenWithAlbumentation
-from raindrop.data_generation.get_position_matrix import get_position_matrix
+from src.data_generation.gen_parking_lane import gen_lanes
+from src.data_generation.gen_albumentation import GenWithAlbumentation
+from src.data_generation.get_position_matrix import get_position_matrix
 
 
 def composition_img(img,alpha,position_matrix,length=2):
@@ -37,10 +38,10 @@ def composition_img(img,alpha,position_matrix,length=2):
 if __name__ == "__main__":
 
     # Change this to the folder of cityscape images.
-    texture_save_dir = 'Honda-data/gen_raindrop/alpha_textures/texture'
-    alpha_save_dir = 'Honda-data/gen_raindrop/alpha_textures/alpha'
-    gen_raindrop = 'Honda-data/cityscapes-leftimg8bit-trainvaltest/20240808_generated_data/valid'
-    original_dir = 'Honda-data/cityscapes-leftimg8bit-trainvaltest/original_data/valid'
+    texture_save_dir = 'dataset/alpha_textures/texture'
+    alpha_save_dir = 'dataset/alpha_textures/alpha'
+    gen_raindrop = 'dataset/cityscapes-leftimg8bit-trainvaltest/generated_data/train'
+    original_dir = 'dataset/cityscapes-leftimg8bit-trainvaltest/original_data/train'
     os.makedirs(gen_raindrop, exist_ok=True)
     alpha_imgs = os.listdir(alpha_save_dir)
 
@@ -48,6 +49,7 @@ if __name__ == "__main__":
         basename = os.path.splitext(os.path.basename(img_path))[0]
         img = cv2.imread(img_path)
         if np.random.uniform() > 0.5:
+
             alpha_img_name = alpha_imgs[random.randint(0,len(alpha_imgs)-1)]
             texture_img_name = 'texture_' + alpha_img_name
             
@@ -59,6 +61,7 @@ if __name__ == "__main__":
                 img = GenWithAlbumentation._with_GlassBlur()(image=img)['image']
             img = composition_img(img,alpha,position_matrix)
             prefix = 'raindrop'
+
         else:
             prefix, img = GenWithAlbumentation.compose_transformation(img)
         

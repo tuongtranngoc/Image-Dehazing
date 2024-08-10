@@ -22,9 +22,9 @@ class GenWithAlbumentation:
     @classmethod
     def _with_random_fog(cls):
         transform = A.RandomFog(
-            fog_coef_lower=0.3,  # float | None
+            fog_coef_lower=0.1,  # float | None
             fog_coef_upper=0.5,  # float | None
-            alpha_coef=0.1,  # float
+            alpha_coef=0.08,  # float
             always_apply=None,  # bool | None
             p=1.0,  # float
         )

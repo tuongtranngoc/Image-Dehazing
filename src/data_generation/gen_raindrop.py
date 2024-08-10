@@ -1,7 +1,7 @@
-import numpy as np
 import os
 import cv2
 import random
+import numpy as np
 import numba as nb
 from tqdm import tqdm
 
@@ -176,9 +176,9 @@ def run():
     # set seed for repeatability
     screen = np.zeros((WIDTH, HEIGHT))
     # load the texture image for render
-    texture = cv2.imread('raindrop/data_generation/texture.png')
-    texture_save_dir = 'Honda-data/gen_raindrop/alpha_textures/texture'
-    alpha_save_dir = 'Honda-data/gen_raindrop/alpha_textures/alpha'
+    texture = cv2.imread('src/data_generation/texture.png')
+    texture_save_dir = 'dataset/alpha_textures/texture'
+    alpha_save_dir = 'dataset/alpha_textures/alpha'
     os.makedirs(texture_save_dir, exist_ok=True)
     os.makedirs(alpha_save_dir, exist_ok=True)
     counter = 0

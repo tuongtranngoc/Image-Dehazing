@@ -92,6 +92,7 @@ def draw_curve_lines(image, start, end, width_offset, num_points):
 
 def cli():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--num_examples', type=str, default=100, help="Number of examples")
     parser.add_argument('--input_folder', help="Path to input folder")
     parser.add_argument('--output_folder', help="Path to output folder")
     
@@ -103,7 +104,7 @@ if __name__ == "__main__":
 
     args = cli()
     os.makedirs(args.output_folder, exist_ok=True)
-    for img_path in tqdm(glob.glob(os.path.join(args.input_folder, '*'))):
+    for img_path in tqdm(glob.glob(os.path.join(args.input_folder, '*'))[900:900+args.num_examples]):
         img = cv2.imread(img_path)
         img = gen_lanes(img)
         cv2.imwrite(os.path.join(args.output_folder, os.path.basename(img_path)), img)
