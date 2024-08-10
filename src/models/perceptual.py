@@ -7,7 +7,7 @@ from src import config as cfg
 
 def vgg19_perceptual(device):
     CONTENT_LAYER = 'relu5_4'
-    backbone = torchvision.models.vgg19(pretrained=True).features
+    backbone = torchvision.models.vgg19(weights="DEFAULT").features
     model = nn.Sequential()
     
     i = 0

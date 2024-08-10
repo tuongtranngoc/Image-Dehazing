@@ -8,11 +8,11 @@ import os
 import cv2
 import PIL
 import glob
+import random
 import itertools
 import numpy as np
 
 from src import config as cfg
-from src.utils.data_utils import DataUtils
 
 
 class DeRainDataset(Dataset):
@@ -42,6 +42,11 @@ class DeRainDataset(Dataset):
     def __getitem__(self, index):
         clean_img = cv2.imread(self.dataset[index]['clean_path'])[..., ::-1]
         noise_img = cv2.imread(self.dataset[index]['noise_path'])[..., ::-1]
+        clean_imgs = ImageSpliting()(clean_img)
+        idxs = list(clean_imgs)
+        idx = random.choice(idxs)
+        clean_img = clean_imgs[idx]
+        noise_img = ImageSpliting()(noise_img)[idx]
         if self.aug:
             pass
         clean_img = self.transform.transform(clean_img)
@@ -83,4 +88,4 @@ class ImageSpliting:
         for i, j in gird_cells:
             mosaics[(i, j)] = image[(j*(H//hr)):((j+1)*(H//hr)), (i*(W//wr)):((i+1)*(W//wr))]
         mosaics = dict(sorted(mosaics.items(), key = lambda x:x[0]))
-        return list(mosaics.values())
+        return mosaics

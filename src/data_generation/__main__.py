@@ -40,8 +40,8 @@ if __name__ == "__main__":
     # Change this to the folder of cityscape images.
     texture_save_dir = 'dataset/alpha_textures/texture'
     alpha_save_dir = 'dataset/alpha_textures/alpha'
-    gen_raindrop = 'dataset/cityscapes-leftimg8bit-trainvaltest/generated_data/train'
-    original_dir = 'dataset/cityscapes-leftimg8bit-trainvaltest/original_data/train'
+    gen_raindrop = 'dataset/cityscapes-leftimg8bit-trainvaltest/generated_data/test'
+    original_dir = 'dataset/cityscapes-leftimg8bit-trainvaltest/original_data/test'
     os.makedirs(gen_raindrop, exist_ok=True)
     alpha_imgs = os.listdir(alpha_save_dir)
 

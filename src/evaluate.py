@@ -2,7 +2,6 @@ import math
 import torch
 import torch.nn as nn
 from tqdm import tqdm
-from src.utils.losses import MSSSIM
 from src.utils.metrics import AverageMeter
 from torchmetrics.image import MultiScaleStructuralSimilarityIndexMeasure
 
@@ -11,8 +10,8 @@ from src import config as cfg
 
 class Evaluator:
     def __init__(self, dataset, model) -> None:
-        self.dataset = dataset
         self.model = model
+        self.dataset = dataset
         self.loss_fn = nn.MSELoss()
     
     def eval(self):

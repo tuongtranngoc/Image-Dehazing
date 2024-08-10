@@ -10,7 +10,7 @@ import torch
 from src import config as cfg
 from src.utils.data_utils import DataUtils
 from src.models.UnetAttention import UNet
-from src.data.derain_dataset import TransformDeReain
+from src.data.derain_dataset import TransformDeReain, ImageSpliting
 
 
 class Predictor:

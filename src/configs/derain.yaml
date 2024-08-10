@@ -2,7 +2,8 @@ device: 'cuda'
 lr: 1e-4
 epochs: 500
 data_dir: [
-    "dataset/CAM_BACK/"
+    "dataset/cityscapes-leftimg8bit-trainvaltest/",
+    "dataset/unimages"
   ]
 
 train:
