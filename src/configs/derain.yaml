@@ -1,0 +1,28 @@
+device: 'cpu'
+lr: 1e-4
+epochs: 500
+data_dir: [
+    "/home/tcsaai/Projects/tuongtran/Image2Image_PoC/BID/Honda-data/cityscapes-leftimg8bit-trainvaltest"
+  ]
+
+train:
+  batch_size: 2
+  num_workers: 8
+  pin_memory: True
+  pretrained_model: True
+  image_size: 640
+  eval_step: 1
+  transforms:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+
+valid:
+  batch_size: 2
+  num_workers: 4
+  pin_memory: True
+  image_size: 640
+
+debug:
+  tensorboard: exps/tensorboard
+  weight: exps/weights
+  prediction: exps/predictions
