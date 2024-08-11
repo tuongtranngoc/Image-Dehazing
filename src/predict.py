@@ -19,7 +19,7 @@ class Predictor:
         self.model.load_state_dict(torch.load(cfg['debug']['weight'], map_location=cfg['device'])['model'])
         self.transform = TransformDeReain()
 
-    def batch_predict(self, image_path):
+    def patches_predict(self, image_path):
         size = cfg['train']['image_size']
         org_image = cv2.imread(image_path)
         org_images = ImageSpliting(size)(org_image)
@@ -57,7 +57,7 @@ class Predictor:
         if max(h, w) > size_img:
                 size_img = max(h, w) 
                 encode_image = cv2.resize(encode_image, (size_img, size_img))
-
+        
         h_pad = (size_img-h) // 2
         w_pad = (size_img-w) // 2
         out = encode_image[h_pad:h_pad+h, w_pad:w_pad+w]
@@ -88,7 +88,7 @@ if __name__ == "__main__":
     predictor = Predictor()
     args = cli()
     for img_pth in tqdm(glob.glob(os.path.join(args.input_folder, "*"))):
-        predictor.batch_predict(img_pth)
+        predictor.patches_predict(img_pth)
     
     
     

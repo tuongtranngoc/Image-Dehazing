@@ -78,9 +78,6 @@ class DeRainDataset(Dataset):
         clean_img = self.transform.transform(clean_img)
         noise_img = self.transform.transform(noise_img)
 
-        cv2.imwrite('img1.png', DataUtils.image_to_numpy(clean_img))
-        cv2.imwrite('img2.png', DataUtils.image_to_numpy(noise_img))
-
         return noise_img, clean_img
         
         
