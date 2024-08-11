@@ -1,6 +1,6 @@
 device: 'cuda'
 lr: 1e-4
-epochs: 500
+epochs: 200
 data_dir: [
     "dataset/cityscapes-leftimg8bit-trainvaltest/",
     "dataset/unimages"

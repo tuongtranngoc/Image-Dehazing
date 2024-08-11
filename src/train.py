@@ -16,10 +16,11 @@ from src.models.perceptual import vgg19_perceptual, normalize_batch
 class Trainer:
     def __init__(self) -> None:
         self.st_epoch = 0
-        self.best_ms_ssim = 0.0
         self.best_psnr = 0.0
+        self.best_ms_ssim = 0.0
         self.loss_fun = torch.nn.L1Loss()
         self.perceptual_loss = torch.nn.MSELoss()
+
         self.create_dataloader()
         self.model = UNet(dropout=0.0).to(device=cfg['device'])
         self.perceptual_model = vgg19_perceptual(cfg['device'])
@@ -28,6 +29,7 @@ class Trainer:
     def create_dataloader(self):
         self.train_dataset = DeRainDataset(mode='train')
         self.valid_dataset = DeRainDataset(mode='valid')
+
         self.train_dataloader = DataLoader(dataset=self.train_dataset,
                                            batch_size=cfg['train']['batch_size'],
                                            shuffle=True,
@@ -43,8 +45,8 @@ class Trainer:
     def train(self):
         metrics = {
             'train_pixel_loss': AverageMeter(),
+            'train_total_loss': AverageMeter(),
             'train_perceptual_loss': AverageMeter(),
-            'train_total_loss': AverageMeter()
         }
         
         self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=float(cfg['lr']))

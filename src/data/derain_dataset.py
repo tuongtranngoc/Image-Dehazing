@@ -1,6 +1,6 @@
 
-from collections import defaultdict
 import albumentations as A
+from collections import defaultdict
 from torch.utils.data import DataLoader, Dataset
 from albumentations.pytorch.transforms import ToTensorV2
 
@@ -16,7 +16,8 @@ from src import config as cfg
 
 
 class DeRainDataset(Dataset):
-    def __init__(self, mode='train', aug=False) -> None:
+    def __init__(self, mode='train', aug=False, split=True) -> None:
+        self.split = split
         self.mode = mode
         self.aug = aug
         self.transform = TransformDeReain()
@@ -42,15 +43,21 @@ class DeRainDataset(Dataset):
     def __getitem__(self, index):
         clean_img = cv2.imread(self.dataset[index]['clean_path'])[..., ::-1]
         noise_img = cv2.imread(self.dataset[index]['noise_path'])[..., ::-1]
-        clean_imgs = ImageSpliting()(clean_img)
-        idxs = list(clean_imgs)
-        idx = random.choice(idxs)
-        clean_img = clean_imgs[idx]
-        noise_img = ImageSpliting()(noise_img)[idx]
+
+        if self.split:
+            clean_imgs = ImageSpliting(cfg['train']['image_size'])(clean_img)
+            idxs = list(clean_imgs)
+            idx = random.choice(idxs)
+            clean_img = clean_imgs[idx]
+            noise_img = ImageSpliting()(noise_img)[idx]
+        
         if self.aug:
+            # Do something
             pass
+
         clean_img = self.transform.transform(clean_img)
         noise_img = self.transform.transform(noise_img)
+
         return noise_img, clean_img
         
         
