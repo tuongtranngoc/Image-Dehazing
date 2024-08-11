@@ -27,8 +27,8 @@ class Trainer:
         self.evaluator = Evaluator(self.valid_dataloader, self.model)
     
     def create_dataloader(self):
-        self.train_dataset = DeRainDataset(mode='train')
-        self.valid_dataset = DeRainDataset(mode='valid')
+        self.train_dataset = DeRainDataset(mode='train', aug=cfg['train']['augmentation'], split=cfg['split_image'])
+        self.valid_dataset = DeRainDataset(mode='valid', aug=cfg['valid']['augmentation'], split=cfg['split_image'])
 
         self.train_dataloader = DataLoader(dataset=self.train_dataset,
                                            batch_size=cfg['train']['batch_size'],

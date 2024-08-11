@@ -24,7 +24,7 @@ def gen_lanes(image:np.ndarray):
     points = np.array(_points)
     points = points.reshape((-1, 1, 2))
     
-    alpha = np.random.uniform(0.2, 0.4)
+    alpha = np.random.uniform(0.2, 0.5)
     thickness1 = 2
     thickness2 = 10
     num_points = 50
