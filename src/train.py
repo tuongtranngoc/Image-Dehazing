@@ -84,7 +84,7 @@ class Trainer:
             if epoch % cfg['train']['eval_step'] == 0:
                 eval_metrics = self.evaluator.eval()
                 Tensorboard.add_scalars('ms_ssim', epoch, ms_ssim=eval_metrics['ms_ssim'].avg)
-
+        
                 current_ms_ssim = eval_metrics['ms_ssim'].avg
                 if current_ms_ssim > self.best_ms_ssim:
                     self.best_ms_ssim = current_ms_ssim

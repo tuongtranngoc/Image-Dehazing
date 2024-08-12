@@ -2,10 +2,12 @@ device: 'cuda'
 lr: 1e-4
 epochs: 200
 data_dir: [
-    "dataset/cityscapes-leftimg8bit-trainvaltest/",
-    "dataset/unimages"
+    "dataset/Honda-data/cityscapes-leftimg8bit-trainvaltest/",
+    "dataset/Honda-data/nuimages/dark_cam_back",
+    "dataset/Honda-data/nuimages/light_cam_back"
   ]
-split_image: 'random_crop' # [grid_cell, random_crop, normal]
+generated_version: '20240812_generated_data'
+split_image: 'normal' # [grid_cell, random_crop, normal]
 
 train:
   batch_size: 2
@@ -14,9 +16,6 @@ train:
   pretrained_model: True
   image_size: 512
   eval_step: 1
-  transforms:
-    mean: [0.485, 0.456, 0.406]
-    std: [0.229, 0.224, 0.225]
   augmentation: False
 
 valid:
@@ -28,5 +27,6 @@ valid:
 
 debug:
   tensorboard: exps/tensorboard
-  weight: exps/weights/best.pt
-  prediction: exps/predictions
+  weight: exps/weights/normal/best.pt
+  prediction: exps/predictions/normal
+  dataset_statistic: exps/dataset_statistic

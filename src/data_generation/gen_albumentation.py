@@ -1,5 +1,6 @@
-import albumentations as A
 import numpy as np
+import albumentations as A
+import imgaug.augmenters as iaa
 
 class GenWithAlbumentation:
 
@@ -13,7 +14,7 @@ class GenWithAlbumentation:
             drop_color=(200, 200, 200),  # tuple[int, int, int]
             blur_value=4,  # int
             brightness_coefficient=0.7,  # float
-            rain_type=None,  # RainMode | None
+            rain_type="drizzle",  # RainMode | None
             always_apply=None,  # bool | None
             p=1.0,  # float
         )
@@ -22,14 +23,24 @@ class GenWithAlbumentation:
     @classmethod
     def _with_random_fog(cls):
         transform = A.RandomFog(
-            fog_coef_lower=0.1,  # float | None
-            fog_coef_upper=0.5,  # float | None
-            alpha_coef=0.08,  # float
+            fog_coef_lower=0.2,  # float | None
+            fog_coef_upper=0.6,  # float | None
+            alpha_coef=0.09,  # float
             always_apply=None,  # bool | None
             p=1.0,  # float
         )
         
         return transform
+
+    @classmethod
+    def _with_random_fog_iaa(cls):
+        transform = iaa.Sequential([
+            iaa.Fog(),
+            iaa.Clouds()
+        ])
+        
+        return transform
+        
     
     @classmethod
     def _with_random_SunFlare(cls):
@@ -133,11 +144,12 @@ class GenWithAlbumentation:
     @classmethod
     def compose_transformation(cls, image):
         transforms = {
-            'random_rain': cls._with_random_rain(),
+            # 'random_rain': cls._with_random_rain(),
             'random_fog': cls._with_random_fog(),
-            'random_brightness_contrast': cls._with_random_BrightnessContrast()
+            'random_brightness_contrast': cls._with_random_BrightnessContrast(),
         }
         aug = np.random.choice(list(transforms.keys()))
         transform = transforms[aug]
-        transformed = transform(image=image)
-        return aug, transformed['image']
+        transformed = transform(image=image)['image']
+        
+        return aug, transformed

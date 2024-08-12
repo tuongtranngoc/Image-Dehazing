@@ -20,7 +20,7 @@ class Evaluator:
             'psnrb': AverageMeter()
         }
         ms_ssim = MultiScaleStructuralSimilarityIndexMeasure(data_range=1.0).to(cfg['device'])
-
+        
         self.model.eval()
         with torch.no_grad():
             for (X, y) in tqdm(self.dataset):

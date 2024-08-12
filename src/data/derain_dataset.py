@@ -28,7 +28,7 @@ class DeRainDataset(Dataset):
         dataset = []
         for data_folder in cfg['data_dir']:
             clean_data = os.path.join(data_folder, 'original_data')
-            noise_data = os.path.join(data_folder, 'generated_data')
+            noise_data = os.path.join(data_folder, cfg['generated_version'])
             
             for img_path in glob.glob(os.path.join(noise_data, self.mode, "*", "*")):
                 basename = os.path.basename(img_path)

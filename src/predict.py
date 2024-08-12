@@ -41,7 +41,6 @@ class Predictor:
 
         self.save_image(org_image, mask, os.path.basename(image_path), cfg['debug']['prediction'])
 
-        
     def single_predict(self, image_path):
         org_image = cv2.imread(image_path)
         image = org_image[..., ::-1]
