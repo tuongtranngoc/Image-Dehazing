@@ -16,10 +16,8 @@ class Visualizer:
         
         for i, (inp, out) in enumerate(zip(inps, outs)):
             inp = DataUtils.image_to_numpy(inp)
-            inp = Visualizer.decode_image(inp)
-            
             out = DataUtils.image_to_numpy(out)
-            out = Visualizer.decode_image(out)
+            out = Visualizer.decode_image(inp, out)
             
             cls.save_image(inp, out, f'{idx}_{i}.png', os.path.join(debug_dir, mode))
             

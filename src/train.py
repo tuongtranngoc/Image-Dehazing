@@ -60,7 +60,7 @@ class Trainer:
                 self.optimizer.zero_grad()
                 outs = self.model(X)
                 
-                Visualizer._debug_output(X, outs, cfg['debug']['debug_ouput'], 'train', cfg['debug']['debug_idxs'])
+                # Visualizer._debug_output(X, outs, cfg['debug']['debug_ouput'], 'train', cfg['debug']['debug_idxs'])
                 
                 loss = self.loss_fun(outs, y)
                 perceptual_outs = self.perceptual_model(normalize_batch(outs))

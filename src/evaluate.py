@@ -29,7 +29,8 @@ class Evaluator:
                 y = y.to(cfg['device'])
                 outs = self.model(X)
                 
-                Visualizer._debug_output(X, outs, cfg['debug']['debug_ouput'], mode='valid', idx=cfg['debug']['debug_idxs'])
+                if i in cfg['debug']['debug_idxs']:
+                    Visualizer._debug_output(X, outs, cfg['debug']['debug_ouput'], mode='valid', idx=i)
 
                 loss = self.loss_fn(outs, y).item()
                 loss = 20 * math.log10(1.0 / math.sqrt(loss))
