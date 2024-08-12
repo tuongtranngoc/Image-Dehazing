@@ -6,6 +6,7 @@ from src.utils.metrics import AverageMeter
 from torchmetrics.image import MultiScaleStructuralSimilarityIndexMeasure
 
 from src import config as cfg
+from src.utils.visualize import Visualizer
 
 
 class Evaluator:
@@ -23,10 +24,12 @@ class Evaluator:
         
         self.model.eval()
         with torch.no_grad():
-            for (X, y) in tqdm(self.dataset):
+            for i, (X, y) in enumerate(tqdm(self.dataset)):
                 X = X.to(cfg['device'])
                 y = y.to(cfg['device'])
                 outs = self.model(X)
+                
+                Visualizer._debug_output(X, outs, cfg['debug']['debug_ouput'], mode='valid', idx=cfg['debug']['debug_idxs'])
 
                 loss = self.loss_fn(outs, y).item()
                 loss = 20 * math.log10(1.0 / math.sqrt(loss))

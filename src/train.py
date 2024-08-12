@@ -11,6 +11,7 @@ from src.utils.metrics import AverageMeter
 from src.utils.tensorboard import Tensorboard
 from src.data.derain_dataset import DeRainDataset
 from src.models.perceptual import vgg19_perceptual, normalize_batch
+from src.utils.visualize import Visualizer
 
 
 class Trainer:
@@ -58,6 +59,9 @@ class Trainer:
                 y = y.to(cfg['device'], dtype=torch.float32)
                 self.optimizer.zero_grad()
                 outs = self.model(X)
+                
+                Visualizer._debug_output(X, outs, cfg['debug']['debug_ouput'], 'train', cfg['debug']['debug_idxs'])
+                
                 loss = self.loss_fun(outs, y)
                 perceptual_outs = self.perceptual_model(normalize_batch(outs))
                 perceptual_y = self.perceptual_model(normalize_batch(y))

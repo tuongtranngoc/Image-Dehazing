@@ -111,4 +111,4 @@ if __name__ == "__main__":
         os.makedirs(prefix_folder, exist_ok=True)
         cv2.imwrite(os.path.join(prefix_folder, f'{basename}.png'), img)
     os.makedirs(cfg['debug']['dataset_statistic'], exist_ok=True)    
-    pd.DataFrame(statistic_dataset).to_csv(os.path.join(cfg['debug']['dataset_statistic'], f'{mode}.csv'))
+    pd.DataFrame(statistic_dataset).to_csv(os.path.join(cfg['debug']['dataset_statistic'], os.path.basename(original_dir), f'{mode}.csv'))
