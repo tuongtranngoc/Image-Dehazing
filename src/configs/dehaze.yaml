@@ -1,8 +1,8 @@
 device: 'cuda'
-lr: 1e-4
+lr: 1e-3
 epochs: 200
 data_dir: [
-    "dataset/I-HAZY/",
+    "dataset/I-HAZY",
     "dataset/O-HAZY",
   ]
 generated_version: ''

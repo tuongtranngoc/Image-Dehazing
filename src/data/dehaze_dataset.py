@@ -10,6 +10,7 @@ import glob
 import random
 import itertools
 import numpy as np
+from tqdm import tqdm
 
 from src import config as cfg
 
@@ -28,7 +29,7 @@ class DeHazeDataset(Dataset):
             clean_data = os.path.join(data_folder, 'GT')
             noise_data = os.path.join(data_folder, 'hazy')
             
-            for img_path in glob.glob(os.path.join(clean_data, self.mode, "*")):
+            for img_path in tqdm(glob.glob(os.path.join(clean_data, self.mode, "*")), desc=f"Loading data from {data_folder}"):
                 basename = os.path.basename(img_path).replace('GT', 'hazy')
                 dataset.append({
                     'clean_path': img_path,
