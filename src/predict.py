@@ -11,14 +11,14 @@ from src import config as cfg
 from src.utils.data_utils import DataUtils
 from src.models.UnetAttention import UNet
 from src.utils.visualize import Visualizer
-from src.data.derain_dataset import TransformDeReain, RandomSpliting, GridCellSpliting
+from src.data.dehaze_dataset import TransformDeHaze, RandomSpliting, GridCellSpliting
 
 
 class Predictor:
     def __init__(self) -> None:
         self.model = UNet().to(cfg['device'])
         self.model.load_state_dict(torch.load(cfg['debug']['weight'], map_location=cfg['device'])['model'])
-        self.transform = TransformDeReain()
+        self.transform = TransformDeHaze()
 
     def patches_predict(self, image_path):
         size = cfg['train']['image_size']

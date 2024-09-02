@@ -1,40 +1,38 @@
 
 import albumentations as A
 from collections import defaultdict
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import Dataset
 from albumentations.pytorch.transforms import ToTensorV2
 
 import os
 import cv2
-import PIL
 import glob
 import random
 import itertools
 import numpy as np
 
 from src import config as cfg
-from src.utils.data_utils import DataUtils
 
 
-class DeRainDataset(Dataset):
+class DeHazeDataset(Dataset):
     def __init__(self, mode='train', aug=False, split='normal') -> None:
         self.split = split
         self.mode = mode
         self.aug = aug
-        self.transform = TransformDeReain()
+        self.transform = TransformDeHaze()
         self.dataset = self.get_dataset()
     
     def get_dataset(self):
         dataset = []
         for data_folder in cfg['data_dir']:
-            clean_data = os.path.join(data_folder, 'original_data')
-            noise_data = os.path.join(data_folder, cfg['generated_version'])
+            clean_data = os.path.join(data_folder, 'GT')
+            noise_data = os.path.join(data_folder, 'hazy')
             
-            for img_path in glob.glob(os.path.join(noise_data, self.mode, "*", "*")):
-                basename = os.path.basename(img_path)
+            for img_path in glob.glob(os.path.join(clean_data, self.mode, "*")):
+                basename = os.path.basename(img_path).replace('GT', 'hazy')
                 dataset.append({
-                    'noise_path': img_path,
-                    'clean_path': os.path.join(clean_data, self.mode, basename)
+                    'clean_path': img_path,
+                    'noise_path': os.path.join(noise_data, self.mode, basename)
                 })
 
         return dataset
@@ -81,7 +79,7 @@ class DeRainDataset(Dataset):
         return noise_img, clean_img
         
         
-class TransformDeReain:
+class TransformDeHaze:
     def __init__(self) -> None:
         """
         Reference: https://github.com/albumentations-team/albumentations/issues/718

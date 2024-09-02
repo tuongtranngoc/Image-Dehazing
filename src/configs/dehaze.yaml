@@ -2,11 +2,10 @@ device: 'cuda'
 lr: 1e-4
 epochs: 200
 data_dir: [
-    "dataset/Honda-data/cityscapes-leftimg8bit-trainvaltest/",
-    "dataset/Honda-data/nuimages/dark_cam_back",
-    "dataset/Honda-data/nuimages/light_cam_back"
+    "dataset/I-HAZY/",
+    "dataset/O-HAZY",
   ]
-generated_version: '20240812_generated_data'
+generated_version: ''
 split_image: 'normal' # [grid_cell, random_crop, normal]
 
 train:

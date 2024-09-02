@@ -7,7 +7,7 @@ import glob
 import os
 
 
-CFG_PATH = 'src/configs/derain.yaml'
+CFG_PATH = 'src/configs/dehaze.yaml'
 
 
 def load_config(file_path=CFG_PATH):

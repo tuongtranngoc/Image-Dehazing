@@ -9,7 +9,7 @@ from src.evaluate import Evaluator
 from src.models.UnetAttention import UNet
 from src.utils.metrics import AverageMeter
 from src.utils.tensorboard import Tensorboard
-from src.data.derain_dataset import DeRainDataset
+from src.data.dehaze_dataset import DeHazeDataset
 from src.models.perceptual import vgg19_perceptual, normalize_batch
 from src.utils.visualize import Visualizer
 
@@ -28,8 +28,8 @@ class Trainer:
         self.evaluator = Evaluator(self.valid_dataloader, self.model)
     
     def create_dataloader(self):
-        self.train_dataset = DeRainDataset(mode='train', aug=cfg['train']['augmentation'], split=cfg['split_image'])
-        self.valid_dataset = DeRainDataset(mode='valid', aug=cfg['valid']['augmentation'], split=cfg['split_image'])
+        self.train_dataset = DeHazeDataset(mode='train', aug=cfg['train']['augmentation'], split=cfg['split_image'])
+        self.valid_dataset = DeHazeDataset(mode='valid', aug=cfg['valid']['augmentation'], split=cfg['split_image'])
 
         self.train_dataloader = DataLoader(dataset=self.train_dataset,
                                            batch_size=cfg['train']['batch_size'],
